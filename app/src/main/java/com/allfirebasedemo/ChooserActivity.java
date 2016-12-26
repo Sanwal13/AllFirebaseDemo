@@ -30,14 +30,6 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
             RealDatabaseActivity.class,
             StorageActivity.class,
             MessagingActivity.class
-
-
-            /*FacebookLoginActivity.class,
-            TwitterLoginActivity.class,
-            EmailSignINActivity.class,
-            AnonymousAuthActivity.class,
-            FirebaseUIActivity.class,
-            CustomAuthActivity.class*/
     };
 
     private static final int[] DESCRIPTION_IDS = new int[]{
@@ -47,14 +39,6 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
             R.string.desc_realtime_db,
             R.string.desc_storage,
             R.string.desc_message
-
-
-           /* R.string.desc_facebook_login,
-            R.string.desc_twitter_login,
-            R.string.desc_emailpassword,
-            R.string.desc_anonymous_auth,
-            R.string.desc_firebase_ui,
-            R.string.desc_custom_auth,*/
     };
 
     @Override
