@@ -26,6 +26,7 @@
         <activity android:name=".realdbpackage.RealDatabaseActivity" />
         <activity android:name=".storagepackage.StorageActivity" />
         <activity android:name=".cloudmessagingpackage.MessagingActivity" />
+        <activity android:name=".analyticpackage.AnalticActivity"/>
 
 
         <service android:name=".storagepackage.MyDownloadService" />

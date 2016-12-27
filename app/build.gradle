@@ -40,5 +40,8 @@ dependencies {
 
     // For Cloud messging from Firebase
     compile 'com.google.firebase:firebase-messaging:10.0.1'
+
+    // For analytic
+    compile 'com.google.firebase:firebase-analytics:10.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

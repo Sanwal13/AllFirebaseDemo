@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.allfirebasedemo.analyticpackage.AnalticActivity;
 import com.allfirebasedemo.cloudmessagingpackage.MessagingActivity;
 import com.allfirebasedemo.realdbpackage.RealDatabaseActivity;
 import com.allfirebasedemo.storagepackage.StorageActivity;
@@ -29,7 +30,8 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
             AnonymousAuthActivity.class,
             RealDatabaseActivity.class,
             StorageActivity.class,
-            MessagingActivity.class
+            MessagingActivity.class,
+            AnalticActivity.class
     };
 
     private static final int[] DESCRIPTION_IDS = new int[]{
@@ -38,7 +40,8 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
             R.string.desc_anonymous_auth,
             R.string.desc_realtime_db,
             R.string.desc_storage,
-            R.string.desc_message
+            R.string.desc_message,
+            R.string.desc_analytic
     };
 
     @Override
