@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AllFirebaseDemo</string>
+    <string name="app_name">All Firesbase Demo</string>
 
     <string name="label_google_sign_in">Firebase + Google Sign In</string>
     <string name="desc_google_sign_in">Use a Google Sign In credential to authenticate with Firebase.</string>
@@ -87,6 +87,7 @@
     <string name="menu_share">Share</string>
 
     <string name="food_dialog_title">Which food is your favorite?</string>
+    <string name="ge_details">Get Details</string>
     <array name="food_items">
         <item>Hot Dogs</item>
         <item>Hamburgers</item>

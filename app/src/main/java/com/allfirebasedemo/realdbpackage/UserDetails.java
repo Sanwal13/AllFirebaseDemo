@@ -14,10 +14,10 @@ public class UserDetails {
     public UserDetails() {
     }
 
-    public UserDetails(String name, String address, String phone, String email) {
+    public UserDetails(String name, String email, String phone, String address) {
         this.name = name;
-        this.address = address;
-        this.phone = phone;
         this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 }

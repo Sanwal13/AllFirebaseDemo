@@ -25,7 +25,7 @@ public class RealDatabaseActivity extends AppCompatActivity {
     private static final String TAG = RealDatabaseActivity.class.getSimpleName();
     public TextView txtDetails;
     public EditText inputName, inputEmail, inputPhone, inputAddress;
-    public Button btnSave;
+    public Button btnSave, btn_getDetail;
     private String userId;
 
     private DatabaseReference mFirebaseDatabase;
@@ -48,6 +48,7 @@ public class RealDatabaseActivity extends AppCompatActivity {
         inputPhone = (EditText) findViewById(R.id.phone);
         inputAddress = (EditText) findViewById(R.id.address);
         btnSave = (Button) findViewById(R.id.btn_save);
+        btn_getDetail = (Button) findViewById(R.id.btn_getDetail);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
@@ -55,7 +56,6 @@ public class RealDatabaseActivity extends AppCompatActivity {
 
         mFirebaseInstance.getReference("app_title").setValue("Real time Database");
 
-        // app_title change listener
         mFirebaseInstance.getReference("app_title").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -63,18 +63,15 @@ public class RealDatabaseActivity extends AppCompatActivity {
 
                 String appTitle = dataSnapshot.getValue(String.class);
 
-                // update toolbar title
                 getSupportActionBar().setTitle(appTitle);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Log.e(TAG, "Failed to read app title value.", error.toException());
             }
         });
 
-        // Save / update the user
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,19 +80,43 @@ public class RealDatabaseActivity extends AppCompatActivity {
                 String phone = inputPhone.getText().toString();
                 String address = inputAddress.getText().toString();
 
-                // Check for already existed userId
+                Log.e("RealDB", "User ID : " + userId);
+
                 if (TextUtils.isEmpty(userId)) {
                     createUser(name, email, phone, address);
                 } else {
-                    updateUser(name, email);
+                    updateUser(name, email, phone, address);
                 }
+            }
+        });
+
+        btn_getDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference myRef = mFirebaseInstance.getReference("users");
+                myRef.orderByChild("name").equalTo("Sanwal").addListenerForSingleValueEvent
+                        (new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                                    Log.d(TAG, "PARENT: " + childDataSnapshot.getKey());
+                                    UserDetails user = childDataSnapshot.getValue(UserDetails.class);
+                                    Log.e(TAG, "User data is changed!" + user.name + ", " + user.email);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
             }
         });
 
         toggleButton();
     }
 
-    // Changing button text
     private void toggleButton() {
         if (TextUtils.isEmpty(userId)) {
             btnSave.setText("Save");
@@ -104,9 +125,7 @@ public class RealDatabaseActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Creating new user node under 'users'
-     */
+
     private void createUser(String name, String email, String phone, String address) {
 
         if (TextUtils.isEmpty(userId)) {
@@ -114,34 +133,24 @@ public class RealDatabaseActivity extends AppCompatActivity {
         }
 
         UserDetails user = new UserDetails(name, email, phone, address);
-
         mFirebaseDatabase.child(userId).setValue(user);
-
         addUserChangeListener();
     }
 
-    /**
-     * User data change listener
-     */
     private void addUserChangeListener() {
-        // User data change listener
         mFirebaseDatabase.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserDetails user = dataSnapshot.getValue(UserDetails.class);
 
-                // Check for null
                 if (user == null) {
                     Log.e(TAG, "User data is null!");
                     return;
                 }
 
                 Log.e(TAG, "User data is changed!" + user.name + ", " + user.email);
-
-                // Display newly updated name and email
                 txtDetails.setText(user.name + ", " + user.email + ", " + user.phone + ", " + user.address);
 
-                // clear edit text
                 inputEmail.setText("");
                 inputName.setText("");
                 inputPhone.setText("");
@@ -152,18 +161,38 @@ public class RealDatabaseActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
                 Log.e(TAG, "Failed to read user", error.toException());
             }
         });
     }
 
-    private void updateUser(String name, String email) {
-        // updating the user via child nodes
+    private void updateUser(String name, String email, String phone, String address) {
         if (!TextUtils.isEmpty(name))
             mFirebaseDatabase.child(userId).child("name").setValue(name);
 
         if (!TextUtils.isEmpty(email))
             mFirebaseDatabase.child(userId).child("email").setValue(email);
+
+        if (!TextUtils.isEmpty(phone))
+            mFirebaseDatabase.child(userId).child("phone").setValue(phone);
+
+        if (!TextUtils.isEmpty(address))
+            mFirebaseDatabase.child(userId).child("address").setValue(address);
     }
+
+
+    private void getUserDetails() {
+        mFirebaseDatabase.child(userId).getDatabase();
+
+        Log.e("FIRE", "Database :" + mFirebaseDatabase.child(userId).getDatabase());
+    }
+
 }
+/*{
+        "rules": {
+        "users": {
+        ".read": true,
+        ".write": true
+        }
+        }
+        }*/
